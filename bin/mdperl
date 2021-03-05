@@ -1,0 +1,105 @@
+#!/usr/bin/perl
+
+use v5.32;
+use strict;
+use utf8;
+use open ':std', ':encoding(UTF-8)';
+
+open(FH, '<', $ARGV[0]) or die;
+
+$ARGV[0] =~ s!^.*/(.*).md$!$1!;
+print <<EOF;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Hugo BRUGEL">
+    <title>$ARGV[0]</title>
+</head>
+EOF
+
+my $w_line = "\n";
+my @bloc_stack;
+my %bloc_type_conditions = ("ul" => qr/^\s*[\-\*\+]\s.*/,
+                            "ol" => qr/^\s*[0-9]+\.\s.*/,
+                            "code" => qr/^\s{4}(?!\s|[\-\*\+]\s|[0-9]+\.\s].*)/,
+                            "blockquote" => qr/^> .*/);
+
+while(<FH>){
+    my $wil = indent_length($w_line);
+    my $fil = indent_length($_);
+    my $indent_condition = ($fil - $wil > 2 or !@bloc_stack);
+
+    if ($_ =~ $bloc_type_conditions{"ul"} and $indent_condition)            { bloc($w_line, "ul") }
+    elsif ($_ =~ $bloc_type_conditions{"ol"} and $indent_condition)         { bloc($w_line, "ol") }
+    elsif ($_ =~ $bloc_type_conditions{"code"} and !@bloc_stack)            { bloc($w_line, "code") }
+    elsif ($_ =~ $bloc_type_conditions{"blockquote"} and !@bloc_stack)      { bloc($w_line, "blockquote") }
+    elsif ($w_line =~ /^.+/ and $wil - $fil > 2 and not !@bloc_stack and not $bloc_stack[-1] =~ /code/) { ubloc($w_line) }
+    elsif ($w_line =~ /^\n/ and not !@bloc_stack and not $_ =~ $bloc_type_conditions{$bloc_stack[-1]})  { ublocn($w_line) }
+    elsif($w_line =~ /^#+\s\S.*/)  { make_title($w_line) };
+    #elsif ($w_line =~ /^\n/ and !@block_stack) { make_paragraph($w_line) }
+
+    if($w_line =~ /\[.*\]\(#.*\)/) { make_link($w_line) };
+    if ($_ =~ $bloc_type_conditions{"ul"} or $_ =~ $bloc_type_conditions{"ol"}){ blocli($w_line, $_) };
+    $w_line =~ s!\*\*(.*?)\*\*!<strong>$1</strong>!g;
+    $w_line =~ s!\*([^\*\s].*?)\*!<em>$1</em>!g;
+
+    print $w_line;
+    $w_line = $_;
+}
+print $w_line;
+close(FH);
+
+#sub make_paragraph{
+#    $_[0] =
+#}
+
+sub make_link{
+    $_[0] =~ s!\[(.*)\]\((.*)\)!<a href=\"$2\">$1</a>!g;
+}
+
+sub indent_length{
+    (my $indent = $_[0]) =~ s/^(\s*)\S.*$/$1/;
+     return length($indent);
+}
+
+sub bloc{
+    if ($bloc_stack[-1] eq "li") { pop(@bloc_stack);$_[0] =~ s!\n!</li>\n! }
+    my $s = @bloc_stack;
+    push(@bloc_stack, $_[1]);
+    my $indent = " " x ($s * 4);
+    $_[0]=$_[0].$indent."<".$_[1].">\n";
+}
+
+sub blocli{
+    if ($bloc_stack[-1] eq "li"){ $_[0] =~ s!\n!</li>\n! }
+    else { push(@bloc_stack, "li") };
+    $_[1] =~ s/([0-9]+|[\*\-\+])\s/<li>/;
+}
+
+sub ubloc{
+    my $type = pop(@bloc_stack);
+    if ($type eq "li") { $_[0] =~ s!\n!</li>\n!; $type=pop(@bloc_stack) };
+    my $s = @bloc_stack;
+    my $indent = " " x ($s * 4);
+    $_[0]=$_[0].$indent."</".$type.">\n";
+}
+
+sub ublocn{
+    my $closure = "";
+    while (not !@bloc_stack){
+        my $type = pop(@bloc_stack);
+        my $s = @bloc_stack;
+        my $indent = " " x ($s * 4);
+        $closure=$closure.$indent."</".$type.">\n";
+    }
+    $_[0] = $closure.$_[0];
+}
+
+sub make_title {
+    my $type = $_[0] =~ tr/#/#/;
+    $_[0] =~ s/^#+\s(.*)\n/$1/;
+    my $href = lc $_[0];
+    $href =~ tr/"' /-/;
+    $_[0] = "<h".$type." id=\"".$href."\">".$_[0]."</h".$type.">\n";
+}

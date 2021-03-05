@@ -1,0 +1,3 @@
+#!/bin/bash
+
+top -bn1 | grep "Cpu(s)" | sed "s/.*, \(.*\) id.*/\1/" | tr ',' '.' | awk '{print "⬚ "100 - $1"%"}'

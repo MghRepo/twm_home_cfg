@@ -1,0 +1,6 @@
+#!/bin/sh
+
+ffmpeg -f x11grab -video_size 3840x2160 -i :0 -vframes 1 -y -filter_complex "gblur=sigma=10:steps=6" /tmp/screenblur.png
+i3lock -i /tmp/screenblur.png &
+
+exit 0

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+id=$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')
+name=$(xprop -id $id | awk '/_NET_WM_NAME/{$1=$2="";print}')
+[[ -n $name ]] && echo $name | sed 's/^\"\(.*\)\"$/\1/;s/\\\"/\"/g;s/\(.\{100\}\).*/\1\.\.\./' || echo "hugo@enim"

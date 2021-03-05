@@ -1,0 +1,21 @@
+#!/bin/sh
+
+input=$(pactl list sink-inputs | head -n1 | sed 's/.*#\(.*\)/\1/')
+
+if [[ $1 == "plus" || $1 == "moins" ]]
+then
+    if [ $1 == plus ]
+    then
+        signe="+"
+    else
+        signe="-"
+    fi
+    pactl set-sink-input-volume $input "$signe"4%
+    pc=$(pactl list sink-inputs | rg Volume | awk '{print $5}')
+    notify-send -t 500 "Volume" "Sink input : $pc"
+else
+    pactl set-sink-input-mute $input 'toggle'
+    notify-send -t 1000 "Volume" "Mute/Umute toggle !"
+fi
+
+exit 0

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+pgrep thunar
+if [ $? == 0 ]
+then
+    pkill -15 thunar
+else
+    thunar
+fi
+
+exit 0

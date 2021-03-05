@@ -1,0 +1,13 @@
+set recolor true
+set recolor-darkcolor "#04060B"
+set recolor-lightcolor "#FEFFFD"
+set default-bg "#04060B"
+set window-title-home-tilde true
+set window-title-page true
+set statusbar-bg "#04060B"
+set statusbar-fg "#FEFFFD"
+set font "Monospace 14"
+set guioptions ""
+set adjust-open width
+set selection-clipboard clipboard
+set show-scrollbars false

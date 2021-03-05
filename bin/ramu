@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+top -bn1 | grep "MiB Mem" | tr ',' '.' | awk '{print 100*$8/$4}' | sed 's/\(.*\..\).*/⏸ \1%/'

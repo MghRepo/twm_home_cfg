@@ -1,0 +1,21 @@
+[options]
+font = JetBrainsMono 18
+cursor_blink = off
+
+[colors]
+color0 = #FDFFFE
+color1 = #D43F3F
+color2 = #B3BF3B
+color3 = #CA8644
+color4 = #69A1CF
+color5 = #B07EBF
+color6 = #77BAB1
+color7 = #363A38
+color8 = #999FA4
+color9 = #B51A1A
+color10 = #6F7813
+color11 = #B85E1E
+color12 = #265F8F
+color13 = #601B74
+color14 = #0B7A6B
+color15 = #04060A

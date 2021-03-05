@@ -1,0 +1,8 @@
+#!/bin/sh
+
+city=$1
+url="https:/wttr.in/$city?format=3"
+
+curl -Ss $url | tr -d ':' | sed 's/\([+-][1-9].*$\)/>> 🌡 \1/'
+
+exit 0

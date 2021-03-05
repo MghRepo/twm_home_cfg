@@ -1,0 +1,5 @@
+#!/bin/sh
+
+dmenu_run -b -fn "JetBrainsMono:size=14" -nb "#69A1CF" -nf "#363A38" -sb "#265F8F" -sf "#FDFFFE"
+
+exit 0

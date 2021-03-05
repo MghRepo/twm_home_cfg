@@ -1,0 +1,8 @@
+#!/bin/sh
+
+date=$(date '+%d%m%y-%H%M%S')
+
+ffmpeg -f x11grab -video_size 3840x2160 -i :0 -vframes 1 ~/captures/impression_$date.png
+notify-send 'Impression !' "Le fichier se trouve dans ~/captures/"
+
+exit 0
