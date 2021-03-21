@@ -17,9 +17,6 @@ bindsym Mod4+l exec ~/bin/lock
 bindsym Mod4+m exec ~/bin/music
 bindsym Mod4+b exec firefox
 bindsym Mod4+p exec ~/bin/title
-bindsym Mod4+ampersand exec ~/bin/switch 0
-bindsym Mod4+eacute exec ~/bin/switch 1
-bindsym Mod4+quotedbl exec ~/bin/switch 2
 bindsym Mod4+comma exec ~/bin/sound mute
 bindsym Mod4+period exec ~/bin/sound moins
 bindsym Mod4+colon exec ~/bin/sound plus
