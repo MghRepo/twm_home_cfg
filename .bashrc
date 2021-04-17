@@ -14,3 +14,4 @@ alias za='zathura'
 alias sd='sudo systemctl start poweroff.target --job-mode=replace-irreversibly --no-block'
 
 export PATH=$PATH":~/bin"
+source "$HOME/.cargo/env"

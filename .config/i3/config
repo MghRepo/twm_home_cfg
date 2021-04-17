@@ -221,7 +221,7 @@ bindsym $mod+r mode "resize"
 bar {
         position top
         tray_output none
-        font xft:JetBrainsMono 11
+        font xft:JetBrainsMono 9
 
         colors {
             background #FDFFFE
