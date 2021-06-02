@@ -1,5 +1,5 @@
 #!/bin/sh
 
-termite --class "floating nfetch" -e "bash -c 'neofetch; bash'"
+alacritty --class nfetch,nfetch -e bash -c 'neofetch; bash'
 
 exit 0

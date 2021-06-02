@@ -21,7 +21,7 @@ bindsym Mod4+comma exec ~/bin/sound mute
 bindsym Mod4+period exec ~/bin/sound moins
 bindsym Mod4+colon exec ~/bin/sound plus
 
-for_window [class="(floating|Thunar)"] floating enable
+for_window [class="(nfetch|Thunar|music|visualizer)"] floating enable
 for_window [class="(music|visualizer)"] resize set 1200 px 675 px
 for_window [class="Thunar"] resize set 2550 px 1670 px, move position 1260 px 427 px
 for_window [class="music"] move position 30 px 720 px

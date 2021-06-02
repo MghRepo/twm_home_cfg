@@ -6,9 +6,9 @@ then
     pkill -15 ncmpcpp
 else
     cfg="~/.config/ncmpcpp/config"
-    termite --class "floating visualizer" -e "ncmpcpp -c $cfg -s visualizer" &
+    alacritty --class visualizer,visualizer -e ncmpcpp -c $cfg -s visualizer &
     sleep 0.1
-    termite --class "floating music" -e "ncmpcpp -c $cfg" &
+    alacritty --class music,music -e ncmpcpp -c $cfg &
 fi
 
 exit 0
